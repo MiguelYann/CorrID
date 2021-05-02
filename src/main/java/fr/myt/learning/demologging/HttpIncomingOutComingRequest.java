@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +18,15 @@ public class HttpIncomingOutComingRequest implements AsyncHandlerInterceptor {
 
     public static final String CORRELATION_ID = "X-Correlation-Id";
     public static final String CORRELATION_ID_LOG = "correlationId";
+    public static final String REMOTE_IP = "X-Forward-For";
+    public static final String REMOTE_IP_LOG = "IP";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("Start request request {}", request.getRequestURL().toString());
         String header = generateCorrelationIdFromHeader(request);
         MDC.put(CORRELATION_ID_LOG, header);
-        log.info("Start request");
-        log.info("Start request request {}", request.getRequestURI());
-        log.info("Remote IP {}", request.getRemoteHost());
+        MDC.put(REMOTE_IP_LOG, request.getRemoteHost());
         return true;
     }
 
@@ -38,10 +38,12 @@ public class HttpIncomingOutComingRequest implements AsyncHandlerInterceptor {
         return correlation;
     }
 
-
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         MDC.remove(CORRELATION_ID);
         log.info(String.valueOf(response.getStatus()));
+        log.info(String.valueOf(response.getBufferSize()));
+        log.info(String.valueOf(response.isCommitted()));
+        log.info(response.getContentType());
     }
 }

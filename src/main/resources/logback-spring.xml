@@ -7,7 +7,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-               %highlight(%d{HH:mm:ss.SSS}) [%green(%t)] [CorrelationId=%X{correlationId}]  %cyan(%-5level) %red(%logger{36}) -%yellow(%msg%n)
+               %highlight(%d{HH:mm:ss.SSS}) [%green(%t)] [CorrelationId=%yellow(%X{correlationId})] ip - %X{IP}  %cyan(%-5level) %red(%logger{36}) -%yellow(%msg%n)
             </Pattern>
         </layout>
     </appender>

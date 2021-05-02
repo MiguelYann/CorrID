@@ -10,6 +10,7 @@ public class ApiConfiguration implements WebMvcConfigurer {
 
     private final HttpIncomingOutComingRequest incomingOutComingRequest;
 
+
     @Autowired
     public ApiConfiguration(HttpIncomingOutComingRequest incomingOutComingRequest) {
         this.incomingOutComingRequest = incomingOutComingRequest;
