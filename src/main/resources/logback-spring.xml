@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property name="LOG_FILE" value="logs/app.log"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+               %highlight(%d{HH:mm:ss.SSS}) [%green(%t)] [CorrelationId=%X{correlationId}]  %cyan(%-5level) %red(%logger{36}) -%yellow(%msg%n)
+            </Pattern>
+        </layout>
+    </appender>
+    <logger name="fr.myt.learning" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
